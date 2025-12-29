@@ -1,0 +1,133 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>VIP Government Schemes</title>
+
+<style>
+:root{
+--bg:#0b0f1a;--card:#121735;--gold:#d4af37;--text:#eee;
+}
+body{margin:0;font-family:Segoe UI;background:var(--bg);color:var(--text)}
+header{padding:25px;text-align:center;border-bottom:1px solid var(--gold)}
+header h1{color:var(--gold);margin:0}
+.container{max-width:1100px;margin:auto;padding:25px}
+.controls{display:grid;grid-template-columns:2fr 1fr;gap:15px}
+input,select{
+padding:12px;border-radius:10px;border:none;
+background:#1a2040;color:white
+}
+.grid{margin-top:25px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.card{
+background:linear-gradient(160deg,#11162a,#0d1225);
+padding:20px;border-radius:14px;border:1px solid #1f2755;
+cursor:pointer;transition:.3s
+}
+.card:hover{
+transform:translateY(-6px);
+border-color:var(--gold);
+box-shadow:0 10px 25px rgba(212,175,55,.25)
+}
+.card h3{color:var(--gold);margin:0}
+#details{
+display:none;margin-top:30px;
+background:#0f1430;padding:25px;
+border-radius:16px;border:1px solid var(--gold)
+}
+#details h2{color:var(--gold)}
+.apply{
+margin-top:20px;
+display:inline-block;
+padding:14px 22px;
+border-radius:10px;
+background:var(--gold);
+color:black;
+font-weight:bold;
+text-decoration:none
+}
+footer{text-align:center;padding:15px;opacity:.6}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>VIP Government Schemes Portal</h1>
+<p>Click → Details → Apply Direct</p>
+</header>
+
+<div class="container">
+
+<div class="controls">
+<input id="search" placeholder="Search scheme..." onkeyup="filter()">
+<select id="cat" onchange="filter()">
+<option value="all">All Categories</option>
+<option value="financial">Financial</option>
+<option value="education">Education</option>
+<option value="health">Health</option>
+<option value="loan">Loan</option>
+<option value="housing">Housing</option>
+<option value="employment">Employment</option>
+</select>
+</div>
+
+<div class="grid" id="list"></div>
+<div id="details"></div>
+
+</div>
+
+<footer>© 2025 VIP Government Portal</footer>
+
+<script>
+const schemes=[
+["Ehsaas Kafalat","financial","Monthly cash for poor families","https://www.pass.gov.pk"],
+["BISP Program","financial","Women financial support","https://bisp.gov.pk"],
+["Sehat Sahulat Card","health","Free medical treatment","https://www.pmhealthprogram.gov.pk"],
+["PM Laptop Scheme","education","Free laptops for students","https://www.pmyp.gov.pk"],
+["PM Youth Loan","loan","Business loans for youth","https://www.pmyp.gov.pk"],
+["Kamyab Jawan","employment","Youth skills & jobs","https://www.pmyp.gov.pk"],
+["Naya Pakistan Housing","housing","Affordable housing","https://nphp.punjab.gov.pk"],
+["HEC Scholarship","education","Need based scholarship","https://www.hec.gov.pk"],
+["Ehsaas Rashan","financial","Subsidized ration","https://www.pass.gov.pk"],
+["NAVTTC Training","education","Free technical courses","https://navttc.gov.pk"]
+];
+
+function render(arr){
+list.innerHTML="";
+arr.forEach((s,i)=>{
+list.innerHTML+=`
+<div class="card" onclick="openD(${i})">
+<h3>${s[0]}</h3>
+<p>${s[2]}</p>
+</div>`;
+});
+}
+
+function openD(i){
+details.style.display="block";
+details.innerHTML=`
+<h2>${schemes[i][0]}</h2>
+<p><b>Category:</b> ${schemes[i][1]}</p>
+<p><b>Description:</b> ${schemes[i][2]}</p>
+<p><b>Eligibility:</b> As per government criteria</p>
+<p><b>Benefits:</b> Official scheme benefits</p>
+<a class="apply" href="${schemes[i][3]}" target="_blank">Apply Now</a>
+`;
+details.scrollIntoView({behavior:"smooth"});
+}
+
+function filter(){
+let q=search.value.toLowerCase();
+let c=cat.value;
+render(schemes.filter(s=>
+s[0].toLowerCase().includes(q) &&
+(c==="all"||s[1]===c)
+));
+}
+
+render(schemes);
+</script>
+
+</body>
+</html>
